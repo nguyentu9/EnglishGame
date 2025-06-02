@@ -5,7 +5,9 @@ const BACKGROUND_IMAGE_KEY = 'background-image';
 const FISH_KEY = 'fish';
 const BACKGROUND_MUSIC_KEY = 'background-music';
 
-const SCALE_FACTOR = 2;
+const SCALE_FACTOR = 1;
+const BACKGROUND_WIDTH = 1664 * SCALE_FACTOR;
+const BACKGROUND_HEIGHT = 768 * SCALE_FACTOR;
 export class Game extends Scene {
     private bubbles!: Phaser.GameObjects.Group;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -50,16 +52,10 @@ export class Game extends Scene {
             .setScale(SCALE_FACTOR);
 
         // Set camera
-        this.cameras.main.setBounds(
-            0,
-            0,
-            this.scale.width * SCALE_FACTOR,
-            this.scale.height * SCALE_FACTOR
-        );
+        this.cameras.main.setBounds(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 
-        this.physics.world.bounds.width = this.scale.width * SCALE_FACTOR;
-        this.physics.world.bounds.height = this.scale.height * SCALE_FACTOR;
-
+        this.physics.world.bounds.width = BACKGROUND_WIDTH;
+        this.physics.world.bounds.height = BACKGROUND_HEIGHT;
 
         // Play background music
         const music = this.sound.add(BACKGROUND_MUSIC_KEY);
@@ -67,14 +63,7 @@ export class Game extends Scene {
 
         // Add overlay for underwater effect
         this.add
-            .rectangle(
-                0,
-                0,
-                this.scale.width * SCALE_FACTOR,
-                this.scale.height * SCALE_FACTOR,
-                0x1e40af,
-                0.3
-            )
+            .rectangle(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 0x1e40af, 0.3)
             .setOrigin(0, 0);
 
         // Create floating bubbles for atmosphere

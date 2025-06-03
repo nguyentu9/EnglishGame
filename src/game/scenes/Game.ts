@@ -150,7 +150,7 @@ export class Game extends Scene {
 
         this.mysteryBoxes = this.physics.add.group({
             key: MYSTERY_BOX_KEY,
-            repeat: 4,
+            repeat: 3,
             setXY: { x: 300, y: 500, stepX: 400 },
         });
 
@@ -181,13 +181,51 @@ export class Game extends Scene {
                 this
             );
 
-            return mysteryBox;
+            return true;
         });
 
         this.cursors = this.input.keyboard!.createCursorKeys();
 
         EventBus.emit('current-scene-ready', this);
     }
+
+    createMysteryBoxes = () => {
+        this.mysteryBoxes.clear(true, true);
+        const startX = 200;
+        const startY = 300;
+        const stepX = 400;
+        const repeat = 3;
+
+        for (let i = 0; i <= repeat; i++) {
+            const x = startX + stepX * i;
+            const y = startY;
+
+            const box = this.physics.add.sprite(x, y, MYSTERY_BOX_KEY);
+            box.setY(Phaser.Math.FloatBetween(box.y, box.y + 200));
+
+            this.mysteryBoxes.add(box);
+            box.setScale(0.15).refreshBody();
+
+            this.tweens.add({
+                targets: box,
+                y: box.y - 10,
+                duration: 1000,
+                repeat: -1,
+                yoyo: true,
+            });
+
+            // set mystery box data
+            this.setMysteryBoxData(box);
+
+            this.physics.add.overlap(
+                this.player,
+                box,
+                this.solveChallenge,
+                undefined,
+                this
+            );
+        }
+    };
 
     setMysteryBoxData(box: GameObjects.GameObject) {
         // get the question
@@ -304,6 +342,12 @@ export class Game extends Scene {
 
         this.currentMysteryBox?.destroy(true);
         this.currentMysteryBox = null;
+
+        if (this.mysteryBoxes.countActive(true) == 0) {
+            this.time.delayedCall(1000, () => {
+                this.createMysteryBoxes();
+            });
+        }
     }
 
     private handleCorrectAnswer(questionId: any) {

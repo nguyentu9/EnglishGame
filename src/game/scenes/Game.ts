@@ -39,15 +39,18 @@ export class Game extends Scene {
     gameText: Phaser.GameObjects.Text;
 
     lives: number = 3;
-    livesText: any;
+    livesText: Phaser.GameObjects.Text;
 
-    score = 0;
+    score: number = 0;
     scoreText: Phaser.GameObjects.Text;
 
     solvedQuestions: { [key: string]: boolean } = {};
 
     currentQuestionBox: string | null = null;
+    currentMysteryBox: GameObjects.GameObject | null = null;
+
     questionPopup: GameObjects.Container;
+
     bubbleAnswersContainer: GameObjects.Container;
 
     constructor() {
@@ -103,13 +106,33 @@ export class Game extends Scene {
             .rectangle(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 0x1e40af, 0.3)
             .setOrigin(0, 0);
 
+        this.lives = 3;
+        this.livesText = this.add
+            .text(16, 60, `Lives: ${this.lives}`, {
+                fontSize: '32px',
+                color: '#ffffff',
+                fontFamily: 'Arial Black',
+            })
+            .setOrigin(0, 0)
+            .setScrollFactor(0);
+
+        this.score = 0;
+        this.scoreText = this.add
+            .text(16, 100, `Score: ${this.score}`, {
+                fontSize: '32px',
+                color: '#ffffff',
+                fontFamily: 'Arial Black',
+            })
+            .setOrigin(0, 0)
+            .setScrollFactor(0);
+
         // Create floating bubbles for atmosphere
         this.floatingBubbles = this.add.group();
         this.createFloatingBubbles();
 
         // Add fish
         this.player = this.physics.add.sprite(200, 200, FISH_KEY);
-        this.player.setScale(0.4).refreshBody();
+        this.player.setScale(0.35).refreshBody();
 
         this.player.setBounce(0.2, 0.2);
         this.player.setCollideWorldBounds(true);
@@ -123,14 +146,15 @@ export class Game extends Scene {
         this.mysteryBoxes = this.physics.add.group({
             key: MYSTERY_BOX_KEY,
             repeat: 4,
-            setXY: { x: 200, y: 400, stepX: 400 },
+            setXY: { x: 300, y: 500, stepX: 400 },
         });
 
         this.mysteryBoxes.children.iterate((mysteryBox: any) => {
             mysteryBox.setScale(0.15).refreshBody();
-            mysteryBox.setBounceY(
-                Phaser.Math.FloatBetween(mysteryBox.y - 200, mysteryBox.y + 200)
-            );
+            // TODO: uncomment this
+            // mysteryBox.setY(
+            //     Phaser.Math.FloatBetween(mysteryBox.y - 200, mysteryBox.y + 200)
+            // );
 
             // set mystery box data
             this.setMysteryBoxData(mysteryBox);
@@ -144,16 +168,16 @@ export class Game extends Scene {
                 yoyo: true,
             });
 
+            this.physics.add.overlap(
+                this.player,
+                mysteryBox,
+                this.solveChallenge,
+                undefined,
+                this
+            );
+
             return mysteryBox;
         });
-
-        this.physics.add.overlap(
-            this.player,
-            this.mysteryBoxes,
-            this.solveChallenge,
-            undefined,
-            this
-        );
 
         this.cursors = this.input.keyboard!.createCursorKeys();
 
@@ -171,10 +195,7 @@ export class Game extends Scene {
         this.solvedQuestions[selectedQuestion.id] = false;
 
         box.setData('uuid', Phaser.Utils.String.UUID());
-        box.setData('id', selectedQuestion.id);
-        box.setData('question', selectedQuestion.question);
-        box.setData('answers', selectedQuestion.answers);
-        box.setData('correctAnswer', selectedQuestion.correctAnswer);
+        box.setData('theQuestion', selectedQuestion);
     }
 
     solveChallenge(player: any, box: any) {
@@ -182,12 +203,15 @@ export class Game extends Scene {
         const boxUUID: string = box.getData('uuid');
         if (this.currentQuestionBox == boxUUID) return;
         this.currentQuestionBox = boxUUID;
+        this.currentMysteryBox = box;
 
-        const question: string = box.getData('question');
+        const theQuestion: any = box.getData('theQuestion');
 
-        const correctAnswer: string = box.getData('answers');
+        const question: string = theQuestion.question;
+        const answerTexts: string[] = theQuestion.answers;
+        const correctAnswer: string = theQuestion.correctAnswer;
 
-        const answerTexts: string[] = box.getData('answers');
+        // console.log('theQuestion: ', theQuestion);
 
         // clear previous question
         this.questionPopup?.destroy();
@@ -199,10 +223,10 @@ export class Game extends Scene {
         const questionY = 0;
 
         const positions = [
-            { x: questionX - 70, y: questionY - 110 }, // top left
-            { x: questionX + 70, y: questionY - 110 }, // top right
-            { x: questionX - 160, y: questionY - 50 }, // left
-            { x: questionX + 160, y: questionY - 50 }, // right
+            { x: questionX - 70, y: questionY - 190 }, // top left
+            { x: questionX + 70, y: questionY - 190 }, // top right
+            { x: questionX - 190, y: questionY - 110 }, // left
+            { x: questionX + 190, y: questionY - 110 }, // right
         ];
 
         const bubbleAnswers = [];
@@ -215,27 +239,42 @@ export class Game extends Scene {
                 })
                 .setOrigin(0.5);
 
-            const bubbleBg = this.add.image(0, 0, BUBBLE_QUESTION_BOX_KEY);
-            bubbleBg.displayWidth = questionText.width + 30;
-            bubbleBg.displayHeight = bubbleBg.displayWidth;
+            const bubbleImage = this.add.image(0, 0, BUBBLE_QUESTION_BOX_KEY);
+            bubbleImage.displayWidth = questionText.width + 30;
+            bubbleImage.displayHeight = bubbleImage.displayWidth;
+
+            // Add physics body
+            this.physics.add.existing(bubbleImage);
+
+            bubbleImage.setData('questionId', theQuestion.id);
+            bubbleImage.setData('question', question);
+            bubbleImage.setData('answerText', answerTexts[i]);
+            bubbleImage.setData('correctAnswer', correctAnswer);
 
             const bubbleContainer = this.add.container(
                 positions[i].x,
                 positions[i].y,
-                [bubbleBg, questionText]
+                [bubbleImage, questionText]
             );
+            bubbleAnswers.push(bubbleContainer);
 
-            // Set interactive
             bubbleContainer.setSize(
-                bubbleBg.displayWidth,
-                bubbleBg.displayHeight
+                bubbleImage.displayWidth,
+                bubbleImage.displayHeight
             );
-            bubbleContainer.setInteractive();
-            bubbleContainer.on('pointerdown', () => {
+            // Set interactive
+            bubbleImage.setInteractive();
+            bubbleImage.on('pointerdown', () => {
                 console.log('Chọn:', answerTexts[i]);
             });
 
-            bubbleAnswers.push(bubbleContainer);
+            this.physics.add.overlap(
+                this.player,
+                bubbleImage,
+                this.chooseAnswer,
+                undefined,
+                this
+            );
         }
 
         this.bubbleAnswersContainer = this.add.container(
@@ -243,6 +282,75 @@ export class Game extends Scene {
             box.y,
             bubbleAnswers
         );
+    }
+
+    private chooseAnswer(player: any, bubbleImage: any) {
+        const questionId = bubbleImage.getData('questionId');
+        const answerText = bubbleImage.getData('answerText');
+        const correctAnswer = bubbleImage.getData('correctAnswer');
+
+        console.log('Chọn:', answerText);
+        console.log('Dap an dung:', correctAnswer);
+
+        if (answerText == correctAnswer) {
+            this.solvedQuestions[questionId] = true;
+            this.score += 10;
+            this.scoreText.setText(`Score: ${this.score}`);
+        } else {
+            this.handleWrongAnswer(player);
+        }
+
+        this.currentQuestionBox = null;
+        this.questionPopup?.destroy();
+        this.bubbleAnswersContainer?.destroy();
+
+        this.currentMysteryBox?.destroy(true);
+    }
+
+    private handleWrongAnswer(player: any) {
+        if (this.lives <= 1) {
+            this.changeScene();
+            return;
+        }
+        this.lives -= 1;
+        this.livesText.setText(`Lives: ${this.lives}`);
+
+        // 1. ✴️ Làm player nhấp nháy đỏ trong 2 giây
+        const originalTint = player.tintTopLeft;
+        player.setTint(0xff0000);
+        this.time.addEvent({
+            delay: 200,
+            repeat: 10 - 1,
+            callback: () => {
+                this.player.setTint(
+                    this.player.tintTopLeft === 0xffffff ? 0xff0000 : 0xffffff
+                );
+            },
+        });
+
+        this.time.delayedCall(200 * 10, () => {
+            player.setTint(0xffffff);
+            //   this.isInvincible = false;
+        });
+
+        // 2. 💥 Hiệu ứng "-1 live" bay lên
+        const text = this.add
+            .text(player.x, player.y - 40, '-1 live', {
+                fontSize: '20px',
+                color: '#ff0000',
+                fontStyle: 'bold',
+            })
+            .setOrigin(0.5);
+
+        this.tweens.add({
+            targets: text,
+            y: text.y - 50,
+            alpha: 0,
+            duration: 1000,
+            onComplete: () => {
+                text.destroy();
+            },
+        });
     }
 
     private showQuestionPopup(question: string) {
@@ -264,7 +372,7 @@ export class Game extends Scene {
         popupGraphics.lineStyle(2, 0x000000, 1);
 
         popupGraphics.setScrollFactor(0);
-        popupGraphics.setDepth(100);
+        popupGraphics.setDepth(1000);
 
         // Thêm text câu hỏi, căn giữa trong pop-up
         const questionText = this.add
@@ -411,6 +519,8 @@ export class Game extends Scene {
     }
 
     changeScene() {
+        this.registry.destroy(); // destroy registry
+        // this.scene.restart(); // restart current scene
         this.scene.start('GameOver');
     }
 }

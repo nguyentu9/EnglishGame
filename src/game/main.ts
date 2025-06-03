@@ -9,13 +9,12 @@ import { Preloader } from './scenes/Preloader';
 // https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config: Phaser.Types.Core.GameConfig = {
     type: AUTO,
-    dom: {
-        createContainer: true,
-    },
     backgroundColor: '#028af8',
     scale: {
-        width: 1024,
-        height: 768,
+        // width: 1024,
+        // height: 768,
+        width: window.innerWidth,
+        height: window.innerHeight,
         parent: 'game-container',
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -30,8 +29,7 @@ const config: Phaser.Types.Core.GameConfig = {
     physics: {
         default: 'arcade',
         arcade: {
-            // gravity: { y: 300 },
-            debug: true,
+            debug: false,
         },
     },
 };

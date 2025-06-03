@@ -9,7 +9,7 @@ export class GameOver extends Scene {
     finalScore: number;
 
     constructor() {
-        super('GameOver');
+        super(SCENE_KEYS.GAME_OVER);
     }
 
     init(data: any) {
@@ -18,20 +18,25 @@ export class GameOver extends Scene {
 
     create() {
         this.camera = this.cameras.main;
-        this.camera.setBackgroundColor(0xff0000);
+        this.camera.setBackgroundColor(0x2162e3);
 
-        this.background = this.add.image(512, 384, 'background');
-        this.background.setAlpha(0.5);
+        // this.background = this.add.image(512, 384, 'background');
+        // this.background.setAlpha(0.5);
 
         this.gameOverText = this.add
-            .text(512, 384, 'Game Over', {
-                fontFamily: 'Arial Black',
-                fontSize: 64,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 8,
-                align: 'center',
-            })
+            .text(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 2 - 100,
+                'Game Over',
+                {
+                    fontFamily: 'Arial Black',
+                    fontSize: 64,
+                    color: '#ffffff',
+                    stroke: '#000000',
+                    strokeThickness: 8,
+                    align: 'center',
+                }
+            )
             .setOrigin(0.5)
             .setDepth(100);
 
@@ -48,9 +53,10 @@ export class GameOver extends Scene {
             .setOrigin(0.5);
 
         const restartButton = this.add
-            .text(this.camera.width / 2, 520, '🔁 Play Again', {
+            .text(this.camera.width / 2, 530, '🔁 Play Again', {
                 fontSize: 32,
-                color: '#000',
+                color: '#fff',
+                fontStyle: 'bold',
                 align: 'center',
                 padding: { x: 20, y: 10 },
             })

@@ -45,15 +45,6 @@ export class AppComponent {
         }
     }
 
-    public moveSprite() {
-        const scene = this.phaserRef().scene as MainMenu;
-        if (scene) {
-            scene.moveLogo(({ x, y }) => {
-                this.spritePosition = { x, y };
-            });
-        }
-    }
-
     public addSprite() {
         const scene = this.phaserRef().scene;
         if (scene) {

@@ -1,0 +1,342 @@
+[
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "position": {
+      "x": 100,
+      "y": 100
+    },
+    "type": "grammar",
+    "question": "Choose the correct verb: She _____ to the market every day.",
+    "options": [
+      "go",
+      "goes",
+      "going",
+      "went"
+    ],
+    "correctAnswer": "goes",
+    "completed": false
+  },
+  {
+    "id": "b2c3d4e5-f6a7-8901-bcde-f23456789abc",
+    "position": {
+      "x": 150,
+      "y": 200
+    },
+    "type": "grammar",
+    "question": "Select the correct pronoun: _____ is my best friend.",
+    "options": [
+      "He",
+      "Him",
+      "His",
+      "Hers"
+    ],
+    "correctAnswer": "He",
+    "completed": false
+  },
+  {
+    "id": "c3d4e5f6-a7b8-9012-cdef-3456789abcde",
+    "position": {
+      "x": 200,
+      "y": 300
+    },
+    "type": "grammar",
+    "question": "Choose the correct tense: They _____ football yesterday.",
+    "options": [
+      "play",
+      "plays",
+      "played",
+      "playing"
+    ],
+    "correctAnswer": "played",
+    "completed": false
+  },
+  {
+    "id": "d4e5f6a7-b8c9-0123-def0-456789abcdef",
+    "position": {
+      "x": 250,
+      "y": 150
+    },
+    "type": "grammar",
+    "question": "Select the correct form: I _____ a book right now.",
+    "options": [
+      "read",
+      "reads",
+      "reading",
+      "am reading"
+    ],
+    "correctAnswer": "am reading",
+    "completed": false
+  },
+  {
+    "id": "e5f6a7b8-c9d0-1234-ef01-56789abcdef0",
+    "position": {
+      "x": 300,
+      "y": 250
+    },
+    "type": "grammar",
+    "question": "Choose the correct article: _____ apple is red.",
+    "options": [
+      "A",
+      "An",
+      "The",
+      "No article"
+    ],
+    "correctAnswer": "An",
+    "completed": false
+  },
+  {
+    "id": "f6a7b8c9-d0e1-2345-f012-6789abcdef01",
+    "position": {
+      "x": 350,
+      "y": 350
+    },
+    "type": "grammar",
+    "question": "Select the correct verb: We _____ to the park tomorrow.",
+    "options": [
+      "go",
+      "goes",
+      "will go",
+      "going"
+    ],
+    "correctAnswer": "will go",
+    "completed": false
+  },
+  {
+    "id": "a7b8c9d0-e1f2-3456-0123-789abcdef012",
+    "position": {
+      "x": 400,
+      "y": 100
+    },
+    "type": "grammar",
+    "question": "Choose the correct form: She _____ her homework yet.",
+    "options": [
+      "hasn’t done",
+      "don’t do",
+      "doesn’t do",
+      "didn’t done"
+    ],
+    "correctAnswer": "hasn’t done",
+    "completed": false
+  },
+  {
+    "id": "b8c9d0e1-f2a3-4567-1234-89abcdef0123",
+    "position": {
+      "x": 450,
+      "y": 200
+    },
+    "type": "grammar",
+    "question": "Select the correct verb: They _____ in the garden now.",
+    "options": [
+      "work",
+      "works",
+      "are working",
+      "worked"
+    ],
+    "correctAnswer": "are working",
+    "completed": false
+  },
+  {
+    "id": "c9d0e1f2-a3b4-5678-2345-9abcdef01234",
+    "position": {
+      "x": 500,
+      "y": 300
+    },
+    "type": "grammar",
+    "question": "Choose the correct preposition: The cat is _____ the table.",
+    "options": [
+      "on",
+      "in",
+      "at",
+      "under"
+    ],
+    "correctAnswer": "on",
+    "completed": false
+  },
+  {
+    "id": "d0e1f2a3-b4c5-6789-3456-abcdef012345",
+    "position": {
+      "x": 550,
+      "y": 150
+    },
+    "type": "grammar",
+    "question": "Select the correct form: I _____ to school every day.",
+    "options": [
+      "walk",
+      "walks",
+      "walking",
+      "walked"
+    ],
+    "correctAnswer": "walk",
+    "completed": false
+  },
+  {
+    "id": "e1f2a3b4-c5d6-7890-4567-bcdef0123456",
+    "position": {
+      "x": 600,
+      "y": 250
+    },
+    "type": "grammar",
+    "question": "Choose the correct verb: He _____ a new car last week.",
+    "options": [
+      "buy",
+      "buys",
+      "bought",
+      "buying"
+    ],
+    "correctAnswer": "bought",
+    "completed": false
+  },
+  {
+    "id": "f2a3b4c5-d6e7-8901-5678-cdef01234567",
+    "position": {
+      "x": 650,
+      "y": 350
+    },
+    "type": "grammar",
+    "question": "Select the correct tense: They _____ to the party tonight.",
+    "options": [
+      "go",
+      "goes",
+      "will go",
+      "going"
+    ],
+    "correctAnswer": "will go",
+    "completed": false
+  },
+  {
+    "id": "a3b4c5d6-e7f8-9012-6789-def012345678",
+    "position": {
+      "x": 700,
+      "y": 100
+    },
+    "type": "grammar",
+    "question": "Choose the correct form: She _____ her room every day.",
+    "options": [
+      "clean",
+      "cleans",
+      "cleaning",
+      "cleaned"
+    ],
+    "correctAnswer": "cleans",
+    "completed": false
+  },
+  {
+    "id": "b4c5d6e7-f8a9-0123-7890-ef0123456789",
+    "position": {
+      "x": 750,
+      "y": 200
+    },
+    "type": "grammar",
+    "question": "Select the correct pronoun: This book belongs to _____ .",
+    "options": [
+      "I",
+      "me",
+      "my",
+      "mine"
+    ],
+    "correctAnswer": "me",
+    "completed": false
+  },
+  {
+    "id": "c5d6e7f8-a9b0-1234-8901-f0123456789a",
+    "position": {
+      "x": 800,
+      "y": 300
+    },
+    "type": "grammar",
+    "question": "Choose the correct verb: We _____ TV right now.",
+    "options": [
+      "watch",
+      "watches",
+      "are watching",
+      "watched"
+    ],
+    "correctAnswer": "are watching",
+    "completed": false
+  },
+  {
+    "id": "d6e7f8a9-b0c1-2345-9012-0123456789ab",
+    "position": {
+      "x": 850,
+      "y": 150
+    },
+    "type": "grammar",
+    "question": "Select the correct article: _____ sun is shining today.",
+    "options": [
+      "A",
+      "An",
+      "The",
+      "No article"
+    ],
+    "correctAnswer": "The",
+    "completed": false
+  },
+  {
+    "id": "e7f8a9b0-c1d2-3456-0123-123456789abc",
+    "position": {
+      "x": 900,
+      "y": 250
+    },
+    "type": "grammar",
+    "question": "Choose the correct form: He _____ to the gym yesterday.",
+    "options": [
+      "go",
+      "goes",
+      "went",
+      "going"
+    ],
+    "correctAnswer": "went",
+    "completed": false
+  },
+  {
+    "id": "f8a9b0c1-d2e3-4567-1234-23456789abcd",
+    "position": {
+      "x": 950,
+      "y": 350
+    },
+    "type": "grammar",
+    "question": "Select the correct verb: They _____ a movie last night.",
+    "options": [
+      "watch",
+      "watches",
+      "watched",
+      "watching"
+    ],
+    "correctAnswer": "watched",
+    "completed": false
+  },
+  {
+    "id": "a9b0c1d2-e3f4-5678-2345-3456789abcde",
+    "position": {
+      "x": 1000,
+      "y": 100
+    },
+    "type": "grammar",
+    "question": "Choose the correct preposition: The book is _____ the shelf.",
+    "options": [
+      "on",
+      "in",
+      "at",
+      "under"
+    ],
+    "correctAnswer": "on",
+    "completed": false
+  },
+  {
+    "id": "b0c1d2e3-f4a5-6789-3456-456789abcdef",
+    "position": {
+      "x": 1050,
+      "y": 200
+    },
+    "type": "grammar",
+    "question": "Select the correct form: I _____ my homework already.",
+    "options": [
+      "finish",
+      "finishes",
+      "finished",
+      "have finished"
+    ],
+    "correctAnswer": "have finished",
+    "completed": false
+  }
+]

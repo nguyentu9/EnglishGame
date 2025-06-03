@@ -1,15 +1,16 @@
 import { Scene } from 'phaser';
+import { SCENE_KEYS } from '../core/SceneKeys';
 
 export class Preloader extends Scene {
     constructor() {
-        super('Preloader');
+        super(SCENE_KEYS.PRELOADER);
     }
 
     init() {
         //  We loaded this image in our Boot Scene, so we can display it here
         // this.add.image(512, 384, 'background');
 
-        this.scene.start('Game');
+        this.scene.start(SCENE_KEYS.GAME);
         return;
 
         //  A simple progress bar. This is the outline of the bar.
@@ -38,7 +39,7 @@ export class Preloader extends Scene {
         //  For example, you can define global animations here, so we can use them in other scenes.
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        // this.scene.start('MainMenu');
-        this.scene.start('Game');
+        // this.scene.start(SCENE_KEYS.MAIN_MENU);
+        this.scene.start(SCENE_KEYS.GAME);
     }
 }

@@ -1,3 +1,4 @@
+import { SCENE_KEYS } from '../core/SceneKeys';
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 
@@ -57,13 +58,13 @@ export class GameOver extends Scene {
             .setInteractive();
 
         restartButton.on('pointerdown', () => {
-            this.scene.start('Game');
+            this.scene.start(SCENE_KEYS.GAME);
         });
 
         EventBus.emit('current-scene-ready', this);
     }
 
     changeScene() {
-        this.scene.start('Game');
+        this.scene.start(SCENE_KEYS.GAME);
     }
 }

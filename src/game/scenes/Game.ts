@@ -1,3 +1,4 @@
+import { SCENE_KEYS } from '../core/SceneKeys';
 import { EventBus } from '../EventBus';
 import { GameObjects, Scene } from 'phaser';
 
@@ -28,6 +29,7 @@ const QUESTION_DATA = [
     },
 ];
 
+const GOLD_BAG_KEY = 'goldbag';
 export class Game extends Scene {
     private floatingBubbles!: Phaser.GameObjects.Group;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -54,7 +56,7 @@ export class Game extends Scene {
     bubbleAnswersContainer: GameObjects.Container;
 
     constructor() {
-        super('Game');
+        super(SCENE_KEYS.GAME);
     }
 
     preload() {
@@ -83,6 +85,9 @@ export class Game extends Scene {
 
         // Load bubble image
         this.load.image(BUBBLE_QUESTION_BOX_KEY, 'assets/images/bubble-2.png');
+
+        // Load goldbag
+        this.load.image(GOLD_BAG_KEY, 'assets/images/gold-bag.png');
     }
 
     create() {
@@ -211,8 +216,6 @@ export class Game extends Scene {
         const answerTexts: string[] = theQuestion.answers;
         const correctAnswer: string = theQuestion.correctAnswer;
 
-        // console.log('theQuestion: ', theQuestion);
-
         // clear previous question
         this.questionPopup?.destroy();
         this.bubbleAnswersContainer?.destroy();
@@ -290,9 +293,7 @@ export class Game extends Scene {
         const correctAnswer = bubbleImage.getData('correctAnswer');
 
         if (answerText == correctAnswer) {
-            this.solvedQuestions[questionId] = true;
-            this.score += 10;
-            this.scoreText.setText(`Score: ${this.score}`);
+            this.handleCorrectAnswer(questionId);
         } else {
             this.handleWrongAnswer(player);
         }
@@ -302,6 +303,52 @@ export class Game extends Scene {
         this.bubbleAnswersContainer?.destroy();
 
         this.currentMysteryBox?.destroy(true);
+        this.currentMysteryBox = null;
+    }
+
+    private handleCorrectAnswer(questionId: any) {
+        this.solvedQuestions[questionId] = true;
+        this.score += 10;
+        this.scoreText.setText(`Score: ${this.score}`);
+
+        const goldBag = this.add.image(
+            (this.currentMysteryBox as any).x,
+            (this.currentMysteryBox as any).y,
+            GOLD_BAG_KEY
+        );
+        goldBag.displayWidth = 50;
+        goldBag.displayHeight = 50;
+
+        this.tweens.add({
+            targets: goldBag,
+            // x: this.cameras.main.x, // vị trí góc trái HUD
+            // y: this.cameras.main.y,
+
+            x: this.scoreText.getWorldTransformMatrix().tx,
+            y: this.scoreText.getWorldTransformMatrix().ty,
+            duration: 500,
+            ease: 'Cubic.easeIn',
+            onComplete: () => {
+                goldBag.destroy(); // Xóa túi vàng sau khi tới nơi
+
+                //   this.addGold(10);  // Thêm 10 vàng
+                const floatText = this.add
+                    .text(this.player.x, this.player.y + 30, `+${10}`, {
+                        fontSize: '20px',
+                        color: '#ffff00',
+                        fontStyle: 'bold',
+                    })
+                    .setOrigin(0.5);
+
+                this.tweens.add({
+                    targets: floatText,
+                    y: 0,
+                    alpha: 0,
+                    duration: 800,
+                    onComplete: () => floatText.destroy(),
+                });
+            },
+        });
     }
 
     private handleWrongAnswer(player: any) {
@@ -517,6 +564,6 @@ export class Game extends Scene {
     changeScene() {
         this.registry.destroy(); // destroy registry
         // this.scene.restart(); // restart current scene
-        this.scene.start('GameOver', { score: this.score });
+        this.scene.start(SCENE_KEYS.GAME_OVER, { score: this.score });
     }
 }

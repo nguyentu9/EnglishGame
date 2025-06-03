@@ -1,6 +1,7 @@
 import { GameObjects, Scene } from 'phaser';
 
 import { EventBus } from '../EventBus';
+import { SCENE_KEYS } from '../core/SceneKeys';
 
 export class MainMenu extends Scene {
     background: GameObjects.Image;
@@ -31,7 +32,7 @@ export class MainMenu extends Scene {
 
         EventBus.emit('current-scene-ready', this);
 
-        // this.scene.start('Game');
+        // this.scene.start(SCENE_KEYS.GAME);
     }
 
     changeScene() {
@@ -40,7 +41,7 @@ export class MainMenu extends Scene {
             this.logoTween = null;
         }
 
-        this.scene.start('Game');
+        this.scene.start(SCENE_KEYS.GAME);
     }
 
     moveLogo(vueCallback: ({ x, y }: { x: number; y: number }) => void) {

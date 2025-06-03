@@ -1,17 +1,22 @@
 import { EventBus } from '../EventBus';
-import { Scene } from 'phaser';
+import { GameObjects, Scene } from 'phaser';
 
 const BACKGROUND_IMAGE_KEY = 'background-image';
 const FISH_KEY = 'fish';
 const BACKGROUND_MUSIC_KEY = 'background-music';
+const MYSTERY_BOX_KEY = 'mystery-box';
+const FLOATING_BUBBLE_KEY = 'bubble';
 
-const SCALE_FACTOR = 1;
+const SCALE_FACTOR = 1.5;
 const BACKGROUND_WIDTH = 1664 * SCALE_FACTOR;
 const BACKGROUND_HEIGHT = 768 * SCALE_FACTOR;
+
+const BUBBLE_QUESTION_BOX_KEY = 'bubbleBG';
 export class Game extends Scene {
-    private bubbles!: Phaser.GameObjects.Group;
+    private floatingBubbles!: Phaser.GameObjects.Group;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
     private player!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+    private mysteryBoxes!: Phaser.GameObjects.Group;
 
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
@@ -25,6 +30,8 @@ export class Game extends Scene {
         // Load background
         this.load.image(BACKGROUND_IMAGE_KEY, 'assets/images/background.jpg');
 
+        this.load.image(MYSTERY_BOX_KEY, 'assets/images/mystery-box.png');
+
         // Load background music
         this.load.audio(BACKGROUND_MUSIC_KEY, 'assets/audios/mermaid-song.mp3');
 
@@ -34,14 +41,17 @@ export class Game extends Scene {
             frameHeight: 256,
         });
 
-        // Create bubble sprite
+        // Create floating bubble sprite
         this.add
             .graphics()
             .fillStyle(0x87ceeb, 0.7)
             .fillCircle(16, 16, 16)
             .lineStyle(2, 0x4682b4)
             .strokeCircle(16, 16, 16)
-            .generateTexture('bubble', 32, 32);
+            .generateTexture(FLOATING_BUBBLE_KEY, 32, 32);
+
+        // Load bubble image
+        this.load.image(BUBBLE_QUESTION_BOX_KEY, 'assets/images/bubble-2.png');
     }
 
     create() {
@@ -58,8 +68,7 @@ export class Game extends Scene {
         this.physics.world.bounds.height = BACKGROUND_HEIGHT;
 
         // Play background music
-        const music = this.sound.add(BACKGROUND_MUSIC_KEY);
-        // music.play();
+        this.addBackgroundMusic();
 
         // Add overlay for underwater effect
         this.add
@@ -67,7 +76,7 @@ export class Game extends Scene {
             .setOrigin(0, 0);
 
         // Create floating bubbles for atmosphere
-        this.bubbles = this.add.group();
+        this.floatingBubbles = this.add.group();
         this.createFloatingBubbles();
 
         // Add fish
@@ -79,6 +88,147 @@ export class Game extends Scene {
 
         this.cameras.main.startFollow(this.player);
 
+        this.createFishAnimation();
+
+        this.player.play('fishRestRight');
+
+        this.mysteryBoxes = this.physics.add.group({
+            key: 'mystery-box',
+            repeat: 4,
+            setXY: { x: 200, y: 400, stepX: 400 },
+        });
+
+        this.mysteryBoxes.children.iterate((child: any) => {
+            child.setScale(0.15).refreshBody();
+            child.setBounceY(
+                Phaser.Math.FloatBetween(child.y - 200, child.y + 200)
+            );
+
+            // Add floating animation
+            this.tweens.add({
+                targets: child,
+                y: child.y - 10,
+                duration: 1000,
+                repeat: -1,
+                yoyo: true,
+            });
+
+            return child;
+        });
+
+        this.physics.add.overlap(
+            this.player,
+            this.mysteryBoxes,
+            this.solveChallenge,
+            undefined,
+            this
+        );
+
+        this.cursors = this.input.keyboard!.createCursorKeys();
+
+        EventBus.emit('current-scene-ready', this);
+    }
+
+    solveChallenge(player: any, star: any) {
+        // Avoid triggering the same star twice
+        if (star.activated) return;
+        star.activated = true;
+
+        const question = `Which animal says 'meow'?`;
+        const questionPopup = this.showQuestionPopup(question);
+
+        const correctAnswer = 'Answer 2 - cat';
+
+        const answerTexts = [
+            'Answer 1 - dog',
+            'Answer 2 - cat',
+            'Answer 3 - bird',
+            'Answer 4 - fish.',
+        ];
+
+        const questionX = star.x;
+        const questionY = star.y;
+
+        const positions = [
+            { x: questionX - 70, y: questionY - 110 }, // Trên
+            { x: questionX + 70, y: questionY - 110 }, // Trên
+            { x: questionX - 160, y: questionY - 50 }, // Trên trái
+            { x: questionX + 160, y: questionY - 50 }, // Trên phải
+        ];
+
+        for (let i = 0; i < 4; i++) {
+            const questionText = this.add
+                .text(0, 0, answerTexts[i], {
+                    font: '13px Montserrat',
+                    color: '#000000',
+                    wordWrap: { width: 80 },
+                })
+                .setOrigin(0.5);
+
+            const bubbleBg = this.add.image(0, 0, BUBBLE_QUESTION_BOX_KEY);
+            bubbleBg.displayWidth = questionText.width + 30;
+            bubbleBg.displayHeight = bubbleBg.displayWidth;
+
+            const bubbleContainer = this.add.container(
+                positions[i].x,
+                positions[i].y,
+                [bubbleBg, questionText]
+            );
+
+            // Set interactive
+            bubbleContainer.setSize(
+                bubbleBg.displayWidth,
+                bubbleBg.displayHeight
+            );
+            bubbleContainer.setInteractive();
+            bubbleContainer.on('pointerdown', () => {
+                console.log('Chọn:', answerTexts[i]);
+            });
+        }
+    }
+
+    private showQuestionPopup(question: string) {
+        // Lấy chiều rộng, chiều cao của camera (khung hình game)
+        const screenWidth = this.cameras.main.width;
+        // const screenHeight = this.cameras.main.height;
+
+        // Cấu hình cho pop-up câu hỏi
+        const popupWidth = screenWidth * 0.8;
+        const popupHeight = 100;
+        const popupX = (screenWidth - popupWidth) / 2;
+        const popupY = 50; // cách cạnh trên 50px
+
+        // Vẽ pop-up bằng Graphics
+        const popupGraphics = this.add.graphics();
+        popupGraphics.fillStyle(0xffffff, 1);
+        // Vẽ hình chữ nhật bo tròn (bán kính 10)
+        popupGraphics.fillRoundedRect(
+            popupX,
+            popupY,
+            popupWidth,
+            popupHeight,
+            10
+        );
+        popupGraphics.lineStyle(2, 0x000000, 1);
+
+        popupGraphics.setScrollFactor(0);
+        popupGraphics.setDepth(100);
+
+        // Thêm text câu hỏi, căn giữa trong pop-up
+        const questionText = this.add
+            .text(screenWidth / 2, popupY + popupHeight / 2, question, {
+                font: '16px Montserrat',
+                color: '#000000',
+                align: 'center',
+                wordWrap: { width: popupWidth - 20 },
+            })
+            .setOrigin(0.5);
+        questionText.setScrollFactor(0);
+        questionText.setDepth(101);
+        return popupGraphics;
+    }
+
+    private createFishAnimation() {
         this.anims.create({
             key: 'fishRestRight',
             frames: this.anims.generateFrameNumbers(FISH_KEY, {
@@ -118,13 +268,14 @@ export class Game extends Scene {
             frameRate: 10,
             repeat: -1,
         });
-
-        this.player.play('fishRestRight');
-
-        this.cursors = this.input.keyboard!.createCursorKeys();
-
-        EventBus.emit('current-scene-ready', this);
     }
+
+    private addBackgroundMusic() {
+        const music = this.sound.add(BACKGROUND_MUSIC_KEY);
+        // music.play();
+        return music;
+    }
+
     override update() {
         // Turn left
         if (this.cursors.left.isDown) {
@@ -182,7 +333,7 @@ export class Game extends Scene {
                 0xffffff,
                 0.3
             );
-            this.bubbles.add(bubble);
+            this.floatingBubbles.add(bubble);
 
             // Add floating animation
             this.tweens.add({

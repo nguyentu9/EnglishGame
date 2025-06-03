@@ -1,35 +1,38 @@
 import { SCENE_KEYS } from '../core/SceneKeys';
 import { EventBus } from '../EventBus';
 import { GameObjects, Scene } from 'phaser';
+import GRAMMAR_QUESTIONS from '../data/grammar-questions.json';
+import VOCABULARY_QUESTIONS from '../data/vocabulary-questions.json';
 
 const BACKGROUND_IMAGE_KEY = 'background-image';
 const FISH_KEY = 'fish';
 const BACKGROUND_MUSIC_KEY = 'background-music';
 const MYSTERY_BOX_KEY = 'mystery-box';
 const FLOATING_BUBBLE_KEY = 'bubble';
+const BUBBLE_QUESTION_BOX_KEY = 'bubbleBG';
+const GOLD_BAG_KEY = 'goldbag';
 
 const SCALE_FACTOR = 1.5;
 const BACKGROUND_WIDTH = 1664 * SCALE_FACTOR;
 const BACKGROUND_HEIGHT = 768 * SCALE_FACTOR;
 
-const BUBBLE_QUESTION_BOX_KEY = 'bubbleBG';
-
 const QUESTION_DATA = [
-    {
-        id: '1',
-        question: 'Which animal says "meow"?',
-        answers: ['cat', 'dog', 'mouse', 'rat'],
-        correctAnswer: 'cat',
-    },
-    {
-        id: '2',
-        question: 'I ... happy today.',
-        answers: ['am', 'is', 'was', 'are'],
-        correctAnswer: 'am',
-    },
+    ...GRAMMAR_QUESTIONS,
+    ...VOCABULARY_QUESTIONS,
+    // {
+    //     id: '1',
+    //     question: 'Which animal says "meow"?',
+    //     answers: ['cat', 'dog', 'mouse', 'rat'],
+    //     correctAnswer: 'cat',
+    // },
+    // {
+    //     id: '2',
+    //     question: 'I ... happy today.',
+    //     answers: ['am', 'is', 'was', 'are'],
+    //     correctAnswer: 'am',
+    // },
 ];
 
-const GOLD_BAG_KEY = 'goldbag';
 export class Game extends Scene {
     private floatingBubbles!: Phaser.GameObjects.Group;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -136,7 +139,11 @@ export class Game extends Scene {
         this.createFloatingBubbles();
 
         // Add fish
-        this.player = this.physics.add.sprite(200, 200, FISH_KEY);
+        this.player = this.physics.add.sprite(
+            150,
+            this.cameras.main.height / 2,
+            FISH_KEY
+        );
         this.player.setScale(0.35).refreshBody();
 
         this.player.setBounce(0.2, 0.2);
@@ -151,15 +158,14 @@ export class Game extends Scene {
         this.mysteryBoxes = this.physics.add.group({
             key: MYSTERY_BOX_KEY,
             repeat: 3,
-            setXY: { x: 300, y: 500, stepX: 400 },
+            setXY: { x: 350, y: 500, stepX: 400 },
         });
 
         this.mysteryBoxes.children.iterate((mysteryBox: any) => {
             mysteryBox.setScale(0.15).refreshBody();
-            // TODO: uncomment this
-            // mysteryBox.setY(
-            //     Phaser.Math.FloatBetween(mysteryBox.y - 200, mysteryBox.y + 200)
-            // );
+            mysteryBox.setY(
+                Phaser.Math.FloatBetween(mysteryBox.y, mysteryBox.y + 200)
+            );
 
             // set mystery box data
             this.setMysteryBoxData(mysteryBox);
@@ -184,6 +190,22 @@ export class Game extends Scene {
             return true;
         });
 
+        const exitButton = this.add
+            .text(this.cameras.main.width - 80, 80, 'Exit', {
+                fontSize: '28px',
+                color: '#ffffff',
+                fontStyle: 'bold',
+                backgroundColor: '#aa0000',
+                padding: { left: 15, right: 15, top: 8, bottom: 8 },
+            })
+            .setOrigin(0.5)
+            .setInteractive();
+        exitButton.setScrollFactor(0);
+
+        exitButton.on('pointerdown', () => {
+            this.changeScene();
+        });
+
         this.cursors = this.input.keyboard!.createCursorKeys();
 
         EventBus.emit('current-scene-ready', this);
@@ -191,7 +213,7 @@ export class Game extends Scene {
 
     createMysteryBoxes = () => {
         this.mysteryBoxes.clear(true, true);
-        const startX = 200;
+        const startX = 350;
         const startY = 300;
         const stepX = 400;
         const repeat = 3;
@@ -577,8 +599,11 @@ export class Game extends Scene {
      */
     private createFloatingBubbles() {
         for (let i = 0; i < 20; i++) {
-            const x = Phaser.Math.Between(0, this.cameras.main.width);
-            const y = Phaser.Math.Between(0, this.cameras.main.height);
+            // const x = Phaser.Math.Between(0, this.cameras.main.width);
+            // const y = Phaser.Math.Between(0, this.cameras.main.height);
+
+            const x = Phaser.Math.Between(0, BACKGROUND_WIDTH);
+            const y = Phaser.Math.Between(0, BACKGROUND_HEIGHT);
 
             const bubble = this.add.circle(
                 x,
@@ -597,8 +622,8 @@ export class Game extends Scene {
                 duration: Phaser.Math.Between(3000, 6000),
                 repeat: -1,
                 onRepeat: () => {
-                    bubble.y = this.cameras.main.height + 20;
-                    bubble.x = Phaser.Math.Between(0, this.cameras.main.width);
+                    bubble.y = BACKGROUND_HEIGHT + 20;
+                    bubble.x = Phaser.Math.Between(0, BACKGROUND_WIDTH);
                     bubble.alpha = 0.3;
                 },
             });

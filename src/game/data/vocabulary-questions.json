@@ -7,7 +7,7 @@
     },
     "type": "vocabulary",
     "question": "What does `island` mean?",
-    "options": [
+    "answers": [
       "A piece of land surrounded by water",
       "A desert",
       "A mountain",
@@ -24,7 +24,7 @@
     },
     "type": "vocabulary",
     "question": "What does `wave` mean?",
-    "options": [
+    "answers": [
       "A movement of water",
       "A bird",
       "A fish",
@@ -41,7 +41,7 @@
     },
     "type": "vocabulary",
     "question": "What does `coral` mean?",
-    "options": [
+    "answers": [
       "A sea animal that forms reefs",
       "A type of rock",
       "A bird",
@@ -58,7 +58,7 @@
     },
     "type": "vocabulary",
     "question": "What does `shore` mean?",
-    "options": [
+    "answers": [
       "The land along the edge of a sea",
       "A hill",
       "A city",
@@ -75,7 +75,7 @@
     },
     "type": "vocabulary",
     "question": "What does `current` mean?",
-    "options": [
+    "answers": [
       "The flow of water in a river or ocean",
       "A storm",
       "A beach",
@@ -92,7 +92,7 @@
     },
     "type": "vocabulary",
     "question": "What does `diver` mean?",
-    "options": [
+    "answers": [
       "A person who swims underwater",
       "A sailor",
       "A pilot",
@@ -109,7 +109,7 @@
     },
     "type": "vocabulary",
     "question": "What does `submarine` mean?",
-    "options": [
+    "answers": [
       "A vehicle that travels underwater",
       "A large fish",
       "A beach house",
@@ -126,7 +126,7 @@
     },
     "type": "vocabulary",
     "question": "What does `fins` mean?",
-    "options": [
+    "answers": [
       "Body parts that help fish swim",
       "Legs of a fish",
       "Fish food",
@@ -143,7 +143,7 @@
     },
     "type": "vocabulary",
     "question": "What does `gills` mean?",
-    "options": [
+    "answers": [
       "Organs fish use to breathe",
       "Fish eyes",
       "Fish tails",
@@ -160,7 +160,7 @@
     },
     "type": "vocabulary",
     "question": "What does `reef` mean?",
-    "options": [
+    "answers": [
       "A ridge of rocks or coral near the surface",
       "A deep hole",
       "A fishing net",
@@ -177,7 +177,7 @@
     },
     "type": "vocabulary",
     "question": "What does `tide` mean?",
-    "options": [
+    "answers": [
       "The rise and fall of sea levels",
       "A wind",
       "A ship",
@@ -194,7 +194,7 @@
     },
     "type": "vocabulary",
     "question": "What does `splash` mean?",
-    "options": [
+    "answers": [
       "The sound made by something hitting water",
       "A dance move",
       "A light breeze",
@@ -211,7 +211,7 @@
     },
     "type": "vocabulary",
     "question": "What does `net` mean?",
-    "options": [
+    "answers": [
       "A tool used to catch fish",
       "A water wave",
       "A boat",
@@ -228,7 +228,7 @@
     },
     "type": "vocabulary",
     "question": "What does `seashell` mean?",
-    "options": [
+    "answers": [
       "The shell of a sea creature",
       "A toy",
       "A cloud shape",
@@ -245,7 +245,7 @@
     },
     "type": "vocabulary",
     "question": "What does `harbor` mean?",
-    "options": [
+    "answers": [
       "A place where ships stay",
       "A type of ocean",
       "A beach game",
@@ -262,7 +262,7 @@
     },
     "type": "vocabulary",
     "question": "What does `plankton` mean?",
-    "options": [
+    "answers": [
       "Tiny sea organisms",
       "Sea birds",
       "Small boats",
@@ -279,7 +279,7 @@
     },
     "type": "vocabulary",
     "question": "What does `buoy` mean?",
-    "options": [
+    "answers": [
       "A floating marker in water",
       "A type of fish",
       "A surfboard",
@@ -296,7 +296,7 @@
     },
     "type": "vocabulary",
     "question": "What does `crab` mean?",
-    "options": [
+    "answers": [
       "A sea animal with claws",
       "A water plant",
       "A type of ship",
@@ -313,7 +313,7 @@
     },
     "type": "vocabulary",
     "question": "What does `seagull` mean?",
-    "options": [
+    "answers": [
       "A bird that lives near the sea",
       "A sea monster",
       "A fish",
@@ -330,7 +330,7 @@
     },
     "type": "vocabulary",
     "question": "What does `anchor` mean?",
-    "options": [
+    "answers": [
       "A heavy object to keep a boat in place",
       "A ship's engine",
       "A sailor's hat",
@@ -347,7 +347,7 @@
     },
     "type": "vocabulary",
     "question": "What does `kelp` mean?",
-    "options": [
+    "answers": [
       "A type of seaweed",
       "A sea animal",
       "A kind of boat",
@@ -364,7 +364,7 @@
     },
     "type": "vocabulary",
     "question": "What does `bay` mean?",
-    "options": [
+    "answers": [
       "A body of water partly enclosed by land",
       "A type of fish",
       "A water sport",
@@ -381,7 +381,7 @@
     },
     "type": "vocabulary",
     "question": "What does `pier` mean?",
-    "options": [
+    "answers": [
       "A platform extending into the water",
       "A type of fish trap",
       "A life jacket",
@@ -398,7 +398,7 @@
     },
     "type": "vocabulary",
     "question": "What does `whale` mean?",
-    "options": [
+    "answers": [
       "A large sea mammal",
       "A sea plant",
       "A diving tool",
@@ -415,7 +415,7 @@
     },
     "type": "vocabulary",
     "question": "What does `surfboard` mean?",
-    "options": [
+    "answers": [
       "A board used to ride waves",
       "A floating sea animal",
       "A diving mask",
@@ -432,7 +432,7 @@
     },
     "type": "vocabulary",
     "question": "What does `stingray` mean?",
-    "options": [
+    "answers": [
       "A flat sea animal with a long tail",
       "A sea bird",
       "A boat",
@@ -449,7 +449,7 @@
     },
     "type": "vocabulary",
     "question": "What does `lifeguard` mean?",
-    "options": [
+    "answers": [
       "A person who watches over swimmers",
       "A diving suit",
       "A type of wave",
@@ -466,7 +466,7 @@
     },
     "type": "vocabulary",
     "question": "What does `snorkel` mean?",
-    "options": [
+    "answers": [
       "A tube for breathing underwater",
       "A boat engine",
       "A fish trap",
@@ -483,7 +483,7 @@
     },
     "type": "vocabulary",
     "question": "What does `harpoon` mean?",
-    "options": [
+    "answers": [
       "A weapon for hunting fish",
       "A sea plant",
       "A wave type",
@@ -500,7 +500,7 @@
     },
     "type": "vocabulary",
     "question": "What does `deck` mean?",
-    "options": [
+    "answers": [
       "The floor of a boat",
       "A fish species",
       "A sea tool",
@@ -517,7 +517,7 @@
     },
     "type": "vocabulary",
     "question": "What does `hull` mean?",
-    "options": [
+    "answers": [
       "The main body of a ship",
       "A deep ocean trench",
       "A type of coral",
@@ -534,7 +534,7 @@
     },
     "type": "vocabulary",
     "question": "What does `barnacle` mean?",
-    "options": [
+    "answers": [
       "A small sea creature that sticks to surfaces",
       "A type of fish",
       "A floating plant",
@@ -551,7 +551,7 @@
     },
     "type": "vocabulary",
     "question": "What does `lagoon` mean?",
-    "options": [
+    "answers": [
       "A shallow body of water separated from the sea",
       "A strong ocean wave",
       "A kind of anchor",
@@ -568,7 +568,7 @@
     },
     "type": "vocabulary",
     "question": "What does `turtle` mean?",
-    "options": [
+    "answers": [
       "A sea animal with a shell",
       "A floating device",
       "A diving position",
@@ -585,7 +585,7 @@
     },
     "type": "vocabulary",
     "question": "What does `squid` mean?",
-    "options": [
+    "answers": [
       "A sea animal with tentacles",
       "A small reef",
       "A wave sound",
@@ -602,7 +602,7 @@
     },
     "type": "vocabulary",
     "question": "What does `sail` mean?",
-    "options": [
+    "answers": [
       "A cloth used to catch wind on a boat",
       "A fish movement",
       "A kind of seaweed",
@@ -619,7 +619,7 @@
     },
     "type": "vocabulary",
     "question": "What does `rudder` mean?",
-    "options": [
+    "answers": [
       "A part used to steer a boat",
       "A kind of shell",
       "A bird wing",
@@ -636,7 +636,7 @@
     },
     "type": "vocabulary",
     "question": "What does `crew` mean?",
-    "options": [
+    "answers": [
       "People who work on a ship",
       "A diving team",
       "A type of fish",
@@ -653,7 +653,7 @@
     },
     "type": "vocabulary",
     "question": "What does `voyage` mean?",
-    "options": [
+    "answers": [
       "A long journey by sea",
       "A type of surfboard",
       "A small fish",
@@ -670,7 +670,7 @@
     },
     "type": "vocabulary",
     "question": "What does `mariner` mean?",
-    "options": [
+    "answers": [
       "A sailor or someone who works at sea",
       "A type of bird",
       "A beach",

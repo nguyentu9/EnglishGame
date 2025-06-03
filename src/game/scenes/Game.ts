@@ -12,6 +12,22 @@ const BACKGROUND_WIDTH = 1664 * SCALE_FACTOR;
 const BACKGROUND_HEIGHT = 768 * SCALE_FACTOR;
 
 const BUBBLE_QUESTION_BOX_KEY = 'bubbleBG';
+
+const QUESTION_DATA = [
+    {
+        id: '1',
+        question: 'Which animal says "meow"?',
+        answers: ['cat', 'dog', 'mouse', 'rat'],
+        correctAnswer: 'cat',
+    },
+    {
+        id: '2',
+        question: 'I ... happy today.',
+        answers: ['am', 'is', 'was', 'are'],
+        correctAnswer: 'am',
+    },
+];
+
 export class Game extends Scene {
     private floatingBubbles!: Phaser.GameObjects.Group;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -21,6 +37,18 @@ export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     gameText: Phaser.GameObjects.Text;
+
+    lives: number = 3;
+    livesText: any;
+
+    score = 0;
+    scoreText: Phaser.GameObjects.Text;
+
+    solvedQuestions: { [key: string]: boolean } = {};
+
+    currentQuestionBox: string | null = null;
+    questionPopup: GameObjects.Container;
+    bubbleAnswersContainer: GameObjects.Container;
 
     constructor() {
         super('Game');
@@ -81,7 +109,7 @@ export class Game extends Scene {
 
         // Add fish
         this.player = this.physics.add.sprite(200, 200, FISH_KEY);
-        this.player.setScale(0.5).refreshBody();
+        this.player.setScale(0.4).refreshBody();
 
         this.player.setBounce(0.2, 0.2);
         this.player.setCollideWorldBounds(true);
@@ -93,27 +121,30 @@ export class Game extends Scene {
         this.player.play('fishRestRight');
 
         this.mysteryBoxes = this.physics.add.group({
-            key: 'mystery-box',
+            key: MYSTERY_BOX_KEY,
             repeat: 4,
             setXY: { x: 200, y: 400, stepX: 400 },
         });
 
-        this.mysteryBoxes.children.iterate((child: any) => {
-            child.setScale(0.15).refreshBody();
-            child.setBounceY(
-                Phaser.Math.FloatBetween(child.y - 200, child.y + 200)
+        this.mysteryBoxes.children.iterate((mysteryBox: any) => {
+            mysteryBox.setScale(0.15).refreshBody();
+            mysteryBox.setBounceY(
+                Phaser.Math.FloatBetween(mysteryBox.y - 200, mysteryBox.y + 200)
             );
+
+            // set mystery box data
+            this.setMysteryBoxData(mysteryBox);
 
             // Add floating animation
             this.tweens.add({
-                targets: child,
-                y: child.y - 10,
+                targets: mysteryBox,
+                y: mysteryBox.y - 10,
                 duration: 1000,
                 repeat: -1,
                 yoyo: true,
             });
 
-            return child;
+            return mysteryBox;
         });
 
         this.physics.add.overlap(
@@ -129,33 +160,52 @@ export class Game extends Scene {
         EventBus.emit('current-scene-ready', this);
     }
 
-    solveChallenge(player: any, star: any) {
-        // Avoid triggering the same star twice
-        if (star.activated) return;
-        star.activated = true;
+    setMysteryBoxData(box: GameObjects.GameObject) {
+        // get the question
+        const selectedQuestion = Phaser.Utils.Array.GetRandom(
+            QUESTION_DATA,
+            0,
+            QUESTION_DATA.length
+        );
 
-        const question = `Which animal says 'meow'?`;
-        const questionPopup = this.showQuestionPopup(question);
+        this.solvedQuestions[selectedQuestion.id] = false;
 
-        const correctAnswer = 'Answer 2 - cat';
+        box.setData('uuid', Phaser.Utils.String.UUID());
+        box.setData('id', selectedQuestion.id);
+        box.setData('question', selectedQuestion.question);
+        box.setData('answers', selectedQuestion.answers);
+        box.setData('correctAnswer', selectedQuestion.correctAnswer);
+    }
 
-        const answerTexts = [
-            'Answer 1 - dog',
-            'Answer 2 - cat',
-            'Answer 3 - bird',
-            'Answer 4 - fish.',
-        ];
+    solveChallenge(player: any, box: any) {
+        // Avoid triggering the same box twice
+        const boxUUID: string = box.getData('uuid');
+        if (this.currentQuestionBox == boxUUID) return;
+        this.currentQuestionBox = boxUUID;
 
-        const questionX = star.x;
-        const questionY = star.y;
+        const question: string = box.getData('question');
+
+        const correctAnswer: string = box.getData('answers');
+
+        const answerTexts: string[] = box.getData('answers');
+
+        // clear previous question
+        this.questionPopup?.destroy();
+        this.bubbleAnswersContainer?.destroy();
+
+        this.questionPopup = this.showQuestionPopup(question);
+
+        const questionX = 0;
+        const questionY = 0;
 
         const positions = [
-            { x: questionX - 70, y: questionY - 110 }, // Trên
-            { x: questionX + 70, y: questionY - 110 }, // Trên
-            { x: questionX - 160, y: questionY - 50 }, // Trên trái
-            { x: questionX + 160, y: questionY - 50 }, // Trên phải
+            { x: questionX - 70, y: questionY - 110 }, // top left
+            { x: questionX + 70, y: questionY - 110 }, // top right
+            { x: questionX - 160, y: questionY - 50 }, // left
+            { x: questionX + 160, y: questionY - 50 }, // right
         ];
 
+        const bubbleAnswers = [];
         for (let i = 0; i < 4; i++) {
             const questionText = this.add
                 .text(0, 0, answerTexts[i], {
@@ -184,7 +234,15 @@ export class Game extends Scene {
             bubbleContainer.on('pointerdown', () => {
                 console.log('Chọn:', answerTexts[i]);
             });
+
+            bubbleAnswers.push(bubbleContainer);
         }
+
+        this.bubbleAnswersContainer = this.add.container(
+            box.x,
+            box.y,
+            bubbleAnswers
+        );
     }
 
     private showQuestionPopup(question: string) {
@@ -202,13 +260,7 @@ export class Game extends Scene {
         const popupGraphics = this.add.graphics();
         popupGraphics.fillStyle(0xffffff, 1);
         // Vẽ hình chữ nhật bo tròn (bán kính 10)
-        popupGraphics.fillRoundedRect(
-            popupX,
-            popupY,
-            popupWidth,
-            popupHeight,
-            10
-        );
+        popupGraphics.fillRoundedRect(0, 0, popupWidth, popupHeight, 10);
         popupGraphics.lineStyle(2, 0x000000, 1);
 
         popupGraphics.setScrollFactor(0);
@@ -216,16 +268,23 @@ export class Game extends Scene {
 
         // Thêm text câu hỏi, căn giữa trong pop-up
         const questionText = this.add
-            .text(screenWidth / 2, popupY + popupHeight / 2, question, {
+            .text(popupWidth / 2, popupHeight / 2, question, {
                 font: '16px Montserrat',
                 color: '#000000',
                 align: 'center',
                 wordWrap: { width: popupWidth - 20 },
             })
             .setOrigin(0.5);
+
+        const popupContainer = this.add.container(popupX, popupY, [
+            popupGraphics,
+            questionText,
+        ]);
+
         questionText.setScrollFactor(0);
         questionText.setDepth(101);
-        return popupGraphics;
+
+        return popupContainer;
     }
 
     private createFishAnimation() {

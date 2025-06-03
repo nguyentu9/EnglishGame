@@ -5,9 +5,14 @@ export class GameOver extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     gameOverText: Phaser.GameObjects.Text;
+    finalScore: number;
 
     constructor() {
         super('GameOver');
+    }
+
+    init(data: any) {
+        this.finalScore = data?.score || 0;
     }
 
     create() {
@@ -29,8 +34,20 @@ export class GameOver extends Scene {
             .setOrigin(0.5)
             .setDepth(100);
 
+        this.add
+            .text(
+                this.camera.width / 2,
+                470,
+                `Your Score: ${this.finalScore}`,
+                {
+                    fontSize: 32,
+                    color: '#ffffff',
+                }
+            )
+            .setOrigin(0.5);
+
         const restartButton = this.add
-            .text(this.camera.width / 2, 480, '🔁 Play Again', {
+            .text(this.camera.width / 2, 520, '🔁 Play Again', {
                 fontSize: 32,
                 color: '#000',
                 align: 'center',

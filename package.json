@@ -1,13 +1,12 @@
 {
   "name": "template-angular",
   "version": "1.1.0",
-  "description": "A Phaser 3 project template that demonstrates Angular communication.",
+  "description": "A Phaser 3 project",
   "scripts": {
     "ng": "ng",
     "dev": "ng serve",
-    "build": "ng build --base-href='./'",
-    "dev-nolog": "ng serve",
-    "build-nolog": "ng build --base-href='./'"
+    "build": "ng build",
+    "build2": "ng build --base-href='./'"
   },
   "author": "",
   "license": "MIT",

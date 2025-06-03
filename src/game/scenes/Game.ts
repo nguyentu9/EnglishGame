@@ -289,9 +289,6 @@ export class Game extends Scene {
         const answerText = bubbleImage.getData('answerText');
         const correctAnswer = bubbleImage.getData('correctAnswer');
 
-        console.log('Chọn:', answerText);
-        console.log('Dap an dung:', correctAnswer);
-
         if (answerText == correctAnswer) {
             this.solvedQuestions[questionId] = true;
             this.score += 10;
@@ -316,7 +313,6 @@ export class Game extends Scene {
         this.livesText.setText(`Lives: ${this.lives}`);
 
         // 1. ✴️ Làm player nhấp nháy đỏ trong 2 giây
-        const originalTint = player.tintTopLeft;
         player.setTint(0xff0000);
         this.time.addEvent({
             delay: 200,
@@ -521,6 +517,6 @@ export class Game extends Scene {
     changeScene() {
         this.registry.destroy(); // destroy registry
         // this.scene.restart(); // restart current scene
-        this.scene.start('GameOver');
+        this.scene.start('GameOver', { score: this.score });
     }
 }

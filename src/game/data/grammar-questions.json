@@ -687,7 +687,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct verb: He _____ to the gym every evening.",
-    "options": [
+    "answers": [
       "go",
       "goes",
       "going",
@@ -704,7 +704,7 @@
     },
     "type": "grammar",
     "question": "Select the correct pronoun: _____ is my favorite teacher.",
-    "options": [
+    "answers": [
       "She",
       "Her",
       "Hers",
@@ -721,7 +721,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct tense: They _____ a movie last weekend.",
-    "options": [
+    "answers": [
       "watch",
       "watches",
       "watched",
@@ -738,7 +738,7 @@
     },
     "type": "grammar",
     "question": "Select the correct form: I _____ a letter right now.",
-    "options": [
+    "answers": [
       "write",
       "writes",
       "am writing",
@@ -755,7 +755,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct article: _____ elephant is huge.",
-    "options": [
+    "answers": [
       "A",
       "An",
       "The",
@@ -772,7 +772,7 @@
     },
     "type": "grammar",
     "question": "Select the correct verb: We _____ to the museum next week.",
-    "options": [
+    "answers": [
       "go",
       "goes",
       "will go",
@@ -789,7 +789,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct form: She _____ her homework yet.",
-    "options": [
+    "answers": [
       "hasn’t finished",
       "don’t finish",
       "doesn’t finish",
@@ -806,7 +806,7 @@
     },
     "type": "grammar",
     "question": "Select the correct verb: They _____ in the pool now.",
-    "options": [
+    "answers": [
       "swim",
       "swims",
       "are swimming",
@@ -823,7 +823,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct preposition: The dog is _____ the chair.",
-    "options": [
+    "answers": [
       "on",
       "in",
       "at",
@@ -840,7 +840,7 @@
     },
     "type": "grammar",
     "question": "Select the correct form: I _____ to the library every day.",
-    "options": [
+    "answers": [
       "go",
       "goes",
       "going",
@@ -857,7 +857,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct verb: He _____ a house last year.",
-    "options": [
+    "answers": [
       "build",
       "builds",
       "built",
@@ -874,7 +874,7 @@
     },
     "type": "grammar",
     "question": "Select the correct tense: They _____ to the concert tomorrow.",
-    "options": [
+    "answers": [
       "go",
       "goes",
       "will go",
@@ -891,7 +891,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct form: She _____ her hair every morning.",
-    "options": [
+    "answers": [
       "brush",
       "brushes",
       "brushing",
@@ -908,7 +908,7 @@
     },
     "type": "grammar",
     "question": "Select the correct pronoun: This bag belongs to _____ .",
-    "options": [
+    "answers": [
       "I",
       "me",
       "my",
@@ -925,7 +925,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct verb: We _____ music right now.",
-    "options": [
+    "answers": [
       "listen",
       "listens",
       "are listening",
@@ -942,7 +942,7 @@
     },
     "type": "grammar",
     "question": "Select the correct article: _____ sky is clear today.",
-    "options": [
+    "answers": [
       "A",
       "An",
       "The",
@@ -959,7 +959,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct form: He _____ to the store yesterday.",
-    "options": [
+    "answers": [
       "go",
       "goes",
       "went",
@@ -976,7 +976,7 @@
     },
     "type": "grammar",
     "question": "Select the correct verb: They _____ a book last night.",
-    "options": [
+    "answers": [
       "read",
       "reads",
       "read (past)",
@@ -993,7 +993,7 @@
     },
     "type": "grammar",
     "question": "Choose the correct preposition: The picture is _____ the wall.",
-    "options": [
+    "answers": [
       "on",
       "in",
       "at",
@@ -1010,7 +1010,7 @@
     },
     "type": "grammar",
     "question": "Select the correct form: I _____ my tasks already.",
-    "options": [
+    "answers": [
       "complete",
       "completes",
       "completed",

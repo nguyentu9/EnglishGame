@@ -43,7 +43,7 @@ export class Game extends Scene {
     background: Phaser.GameObjects.Image;
     gameText: Phaser.GameObjects.Text;
 
-    lives: number = 3;
+    lives: number = 0;
     livesText: Phaser.GameObjects.Text;
 
     score: number = 0;
@@ -114,7 +114,7 @@ export class Game extends Scene {
             .rectangle(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 0x1e40af, 0.3)
             .setOrigin(0, 0);
 
-        this.lives = 3;
+        this.lives = 5;
         this.livesText = this.add
             .text(16, 60, `Lives: ${this.lives}`, {
                 fontSize: '32px',
@@ -157,7 +157,7 @@ export class Game extends Scene {
 
         this.mysteryBoxes = this.physics.add.group({
             key: MYSTERY_BOX_KEY,
-            repeat: 3,
+            repeat: 2,
             setXY: { x: 350, y: 500, stepX: 400 },
         });
 
@@ -214,7 +214,7 @@ export class Game extends Scene {
     createMysteryBoxes = () => {
         this.mysteryBoxes.clear(true, true);
         const startX = 350;
-        const startY = 300;
+        const startY = 600;
         const stepX = 400;
         const repeat = 3;
 
@@ -469,9 +469,9 @@ export class Game extends Scene {
 
         // Cấu hình cho pop-up câu hỏi
         const popupWidth = screenWidth * 0.8;
-        const popupHeight = 100;
+        const popupHeight = 80;
         const popupX = (screenWidth - popupWidth) / 2;
-        const popupY = 50; // cách cạnh trên 50px
+        const popupY = 30;
 
         // Vẽ pop-up bằng Graphics
         const popupGraphics = this.add.graphics();

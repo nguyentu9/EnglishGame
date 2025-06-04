@@ -273,7 +273,9 @@ export class Game extends Scene {
         const theQuestion: any = box.getData('theQuestion');
 
         const question: string = theQuestion.question;
-        const answerTexts: string[] = theQuestion.answers;
+        const answerTexts: string[] = Phaser.Utils.Array.Shuffle(
+            theQuestion.answers
+        );
         const correctAnswer: string = theQuestion.correctAnswer;
 
         // clear previous question

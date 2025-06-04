@@ -16,7 +16,7 @@
                         "allowedCommonJsDependencies": [
                             "phaser"
                         ],
-                        "outputPath": "dist",
+                        "outputPath": "dist/english-game",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
                         "polyfills": [

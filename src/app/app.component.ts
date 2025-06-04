@@ -1,16 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, viewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Component, viewChild } from '@angular/core';
 import { EventBus } from '../game/EventBus';
 import { MainMenu } from '../game/scenes/MainMenu';
-import { DialogComponent } from './components/dialog/dialog.component';
 import { PhaserGame } from './phaser-game.component';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CommonModule, PhaserGame, MatDialogModule, FormsModule],
+    imports: [CommonModule, PhaserGame],
     templateUrl: './app.component.html',
 })
 export class AppComponent {
@@ -20,7 +17,7 @@ export class AppComponent {
     // New way to get the component instance
     phaserRef = viewChild.required(PhaserGame);
 
-    readonly dialog = inject(MatDialog);
+    // readonly dialog = inject(MatDialog);
 
     private isDialogOpen = false;
 
@@ -33,7 +30,7 @@ export class AppComponent {
         EventBus.on('test-dialog:open', () => {
             if (!this.isDialogOpen) {
                 this.isDialogOpen = true;
-                this.testDialog();
+                // this.testDialog();
             }
         });
     }
@@ -63,13 +60,13 @@ export class AppComponent {
         }
     }
 
-    private testDialog() {
-        console.log('test dialog');
-        this.dialog
-            .open(DialogComponent)
-            .afterClosed()
-            .subscribe(() => {
-                this.isDialogOpen = false;
-            });
-    }
+    // private testDialog() {
+    //     console.log('test dialog');
+    //     this.dialog
+    //         .open(DialogComponent)
+    //         .afterClosed()
+    //         .subscribe(() => {
+    //             this.isDialogOpen = false;
+    //         });
+    // }
 }

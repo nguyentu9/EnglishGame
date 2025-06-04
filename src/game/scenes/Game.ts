@@ -585,10 +585,10 @@ export class Game extends Scene {
             this.player.setVelocityY(0);
         }
 
-        if (this.cursors.space.isDown) {
-            EventBus.emit('test-dialog:open', this);
-            // EventBus.on('test-dialog:close', (scene: Phaser.Scene) => {});
-        }
+        // if (this.cursors.space.isDown) {
+        // EventBus.emit('test-dialog:open', this);
+        // EventBus.on('test-dialog:close', (scene: Phaser.Scene) => {});
+        // }
     }
 
     /**

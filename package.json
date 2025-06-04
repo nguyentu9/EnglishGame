@@ -1,7 +1,7 @@
 {
-  "name": "template-angular",
-  "version": "1.1.0",
-  "description": "A Phaser 3 project",
+  "name": "english-game",
+  "version": "1.0.0",
+  "description": "A web game is built by Phaser",
   "scripts": {
     "ng": "ng",
     "dev": "ng serve",
